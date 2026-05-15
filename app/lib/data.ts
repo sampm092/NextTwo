@@ -7,7 +7,7 @@ import {
   LatestInvoiceRaw,
   Revenue,
 } from "./definitions";
-import { formatCurrency } from "./utils"; // For adding currency
+import { formatCurrency } from "@/app/lib/utils"; // For adding currency
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
