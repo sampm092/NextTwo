@@ -2,12 +2,14 @@ import { Card } from "@/app/ui//dashboard/cards";
 import RevenueChart from "@/app/ui//dashboard/revenue-chart";
 import LatestInvoices from "@/app/ui//dashboard/latest-invoices";
 import { lusitana } from "@/app/ui//fonts";
-import { fetchRevenue, fetchLatestInvoices, fetchCardData } from "@/app/lib/data";
+import { fetchCardData } from "@/app/lib/data";
+import { Suspense } from "react";
+import {
+  RevenueChartSkeleton,
+  LatestInvoicesSkeleton,
+} from "@/app/ui/skeletons";
 
 export default async function Page() {
-  // means, wait for fetchRevenue finish then continue any process
-  const revenue = await fetchRevenue();
-  const latestInvoices = await fetchLatestInvoices();
   //   const totalPaidInvoices = (await fetchCardData()).totalPaidInvoices;
   //   const totalPendingInvoices = (await fetchCardData()).totalPendingInvoices;
   //   const numberOfInvoices = (await fetchCardData()).numberOfInvoices;
@@ -36,8 +38,13 @@ export default async function Page() {
         />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <RevenueChart revenue={revenue} />
-        <LatestInvoices latestInvoices={latestInvoices} />
+        {/* Suspense wrap slow component and send 'loading' while fetching data but other components like side bar shown first not waiting for suspense component to shown */}
+        <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
+        </Suspense>
+        <Suspense fallback={<LatestInvoicesSkeleton />}>
+          <LatestInvoices />
+        </Suspense>
       </div>
     </main>
   );
