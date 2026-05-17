@@ -16,7 +16,7 @@ const formSchema = z.object({
 });
 // Test it out:
 const CreateInvoice = formSchema.omit({ id: true, date: true });
-const UpdateInvoice = formSchema.omit({id: true, date:true});
+const UpdateInvoice = formSchema.omit({ id: true, date: true });
 
 export async function createInvoice(formData: FormData) {
   const { customerId, amount, status } = CreateInvoice.parse({
@@ -32,15 +32,15 @@ export async function createInvoice(formData: FormData) {
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
   `;
 
-  revalidatePath('dashboard/invoices'); // Once the database has been updated, the /dashboard/invoices path will be revalidated, and fresh data will be fetched from the server.
-  redirect('/dashboard/invoices'); // redirect the user back to the /dashboard/invoices page.
+  revalidatePath("dashboard/invoices"); // Once the database has been updated, the /dashboard/invoices path will be revalidated, and fresh data will be fetched from the server.
+  redirect("/dashboard/invoices"); // redirect the user back to the /dashboard/invoices page.
 }
 
 export async function updateInvoice(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateInvoice.parse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
+    customerId: formData.get("customerId"),
+    amount: formData.get("amount"),
+    status: formData.get("status"),
   });
 
   const amountInCents = amount * 100;
@@ -50,6 +50,13 @@ export async function updateInvoice(id: string, formData: FormData) {
   WHERE id = ${id}
   `;
 
-  revalidatePath('dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath("dashboard/invoices");
+  redirect("/dashboard/invoices");
+}
+
+export async function deleteInvoice(id: string) {
+  await sql`
+  DELETE FROM invoices 
+  WHERE id = ${id}`;
+  revalidatePath('/dashboard/invoices');
 }
