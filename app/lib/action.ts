@@ -8,17 +8,31 @@ import { redirect } from "next/navigation";
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 const formSchema = z.object({
+  //Bertindak sebagai template skema
   id: z.string(),
   amount: z.coerce.number(), //set to coerce (change) from a string to a number while also validating its type
   customerId: z.string(),
   status: z.enum(["pending", "paid"]),
   date: z.string(),
+  biji: z.string(), // anggap saja untuk dibuang
 });
-// Test it out:
-const CreateInvoice = formSchema.omit({ id: true, date: true });
-const UpdateInvoice = formSchema.omit({ id: true, date: true });
+// Omit = membuang properti yg tidak dibutuhkan (true = dibuang)
+const CreateInvoice = formSchema.omit({ id: true, date: true, biji: true });
+const UpdateInvoice = formSchema.omit({ id: true, date: true, biji: true });
 
 export async function createInvoice(formData: FormData) {
+  //FormData is a built-in browser object that stores form values. ()
+  //   Imagine this form:
+  // <form>
+  //   <input name="email" value="sam@email.com" />
+  //   <input name="age" value="20" />
+  // </form>
+
+  // FormData becomes something like:
+  // {
+  //   email: "sam@email.com",
+  //   age: "20"
+  // }
   const { customerId, amount, status } = CreateInvoice.parse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
@@ -66,7 +80,7 @@ export async function updateInvoice(id: string, formData: FormData) {
 }
 
 export async function deleteInvoice(id: string) {
-  throw new Error('Failed to Delete Invoice');
+  throw new Error("Failed to Delete Invoice");
 
   await sql`
   DELETE FROM invoices 

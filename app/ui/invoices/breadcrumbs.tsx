@@ -8,11 +8,7 @@ interface Breadcrumb {
   active?: boolean; // (?) artinya properti ini tidak wajib diisi
 }
 
-export default function Breadcrumbs({
-  breadcrumbs,
-}: {
-  breadcrumbs: Breadcrumb[]; // mendeklarasikan props breadcrumbs sebagai array
-}) {
+export default function Breadcrumbs({breadcrumbs}: {breadcrumbs: Breadcrumb[]}) { // mendeklarasikan props breadcrumbs sebagai array
   return (
     <nav aria-label="Breadcrumb" className="mb-6 block">
       <ol className={clsx(lusitana.className, 'flex text-xl md:text-2xl')}>
