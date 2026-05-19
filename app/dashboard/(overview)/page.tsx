@@ -8,6 +8,7 @@ import {
   LatestInvoicesSkeleton,
   CardSkeleton,
 } from "@/app/ui/skeletons";
+import Gun from "@/app/ui/dashboard/gun";
 
 export default async function Page() {
   return (
@@ -29,6 +30,7 @@ export default async function Page() {
           <LatestInvoices />
         </Suspense>
       </div>
+      <Gun guns={[{ label: "HK416", href: `aa.com` }]} />
     </main>
   );
 }
