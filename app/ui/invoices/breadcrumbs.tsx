@@ -3,15 +3,15 @@ import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 
 interface Breadcrumb {
-  label: string;
-  href: string;
-  active?: boolean;
+  label: string; // Text yg akan ditampilkan
+  href: string; // Link tujuan yg ada di breadcrumbs
+  active?: boolean; // (?) artinya properti ini tidak wajib diisi
 }
 
 export default function Breadcrumbs({
   breadcrumbs,
 }: {
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: Breadcrumb[]; // mendeklarasikan props breadcrumbs sebagai array
 }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-6 block">
