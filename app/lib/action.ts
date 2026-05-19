@@ -34,9 +34,6 @@ export async function createInvoice(formData: FormData) {
   `;
   } catch (error) {
     console.log(error);
-    return {
-      message: "Database error: Failed to create invoice.",
-    };
   }
 
   revalidatePath("dashboard/invoices"); // Once the database has been updated, the /dashboard/invoices path will be revalidated, and fresh data will be fetched from the server.
